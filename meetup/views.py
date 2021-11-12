@@ -16,7 +16,7 @@ def meetup_details(request, meetup_slug):
         selected_meetup = Meetup.objects.get(slug=meetup_slug)
         if request.method == 'GET':
             print("->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-            print(selected_meetup)
+            print(type(selected_meetup.participants.all()[0].email))
             registration_forms = RegistrationForms()
         else :
             registration_forms = RegistrationForms(request.POST)
@@ -33,7 +33,7 @@ def meetup_details(request, meetup_slug):
                 'meetup_description': selected_meetup.description,
                 'meetup_slug':meetup_slug,
                 'meetup_location': selected_meetup.location,
-                'participants_list': selected_meetup.participants,
+                'participants_list': [i.email for i in  selected_meetup.participants.all()],
                 'form': registration_forms,
             })
 
